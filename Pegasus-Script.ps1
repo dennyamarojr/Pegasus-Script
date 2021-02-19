@@ -1,8 +1,9 @@
 ﻿##########
-# Win 10 / Server 2016 / Server 2019 Initial Setup Script - Tweak library
+# Pegasus Script is a set of tweaks for OS fine-tuning and automating the routine tasks
+# Suppoted Windows 10 Version: Win 10 / Server 2016 / Server 2019
 # Author: Denny
-# Version: v0.01, 2021-02-02
-# Source: 
+# Version: v0.01, 2021-02-19
+# Source: https://github.com/dennyamarojr/Pegasus-Script
 ##########
 # Default preset
 $tweaks = @(
