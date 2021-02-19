@@ -8270,7 +8270,7 @@ Function ImageCleanup {
 	Remove-Item /s /q "$env:WINDIR\Temp"
 	Remove-Item /s /q "$env:TEMP"
 	#Clear main telemetry file
-	takeown /f "$env:ProgramData\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl" /r -Value y
+	takeown /f "$env:ProgramData\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl" /a
 	icacls "$env:ProgramData\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl" /grant administrators:F /t
 	Write-Output "Clear successful: $env:ProgramData\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl..."
 	#Clear Distributed Transaction Coordinator logs
