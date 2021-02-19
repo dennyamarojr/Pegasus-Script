@@ -8272,8 +8272,7 @@ Function ImageCleanup {
 	#Clear main telemetry file
 	takeown /f "$env:ProgramData\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl" /r -Value y
 	icacls "$env:ProgramData\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl" /grant administrators:F /t
-	Write-Output"" > "$env:ProgramData\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl"
-	Write-Output Clear successful: "$env:ProgramData\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl"
+	Write-Output "Clear successful: $env:ProgramData\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl..."
 	#Clear Distributed Transaction Coordinator logs
 	Remove-Item /f /q $env:SystemRoot\DtcInstall.log
 	#Clear Optional Component Manager and COM+ components logs
