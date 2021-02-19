@@ -502,8 +502,8 @@ Function DisableDataCollection {
 	#Remove "Windows Insider Program" from Settings
 	Write-Host "Removing getting preview builds of Windows..."
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility" -Name "HideInsiderPage" -Type "DWORD" -Value "1" -Force
-    # Turn off handwriting recognition error reporting
-    Write-Host "Turning off handwriting recognition error reporting..."
+	# Turn off handwriting recognition error reporting
+	Write-Host "Turning off handwriting recognition error reporting..."
 	If (!(Test-Path "HKCU:\Software\Policies\Microsoft\Windows\HandwritingErrorReports")) {
 		New-Item -Path "HKCU:\Software\Policies\Microsoft\Windows\HandwritingErrorReports" -Force | Out-Null
 	}
@@ -573,8 +573,8 @@ Function EnableDataCollection {
 	#Restore "Windows Insider Program" from Settings
 	Write-Host "Restoring getting preview builds of Windows..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsSelfHost\UI\Visibility" -Name "HideInsiderPage" -Force -ErrorAction SilentlyContinue
-    # Turn on handwriting recognition error reporting
-    Write-Host "Restoring handwriting recognition error reporting..."
+	# Turn on handwriting recognition error reporting
+	Write-Host "Restoring handwriting recognition error reporting..."
 	Remove-ItemProperty -Path "HKCU:\Software\Policies\Microsoft\Windows\HandwritingErrorReports" -Name "PreventHandwritingErrorReports" -Force -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\HandwritingErrorReports" -Name "PreventHandwritingErrorReports" -Force -ErrorAction SilentlyContinue
 	# Enabling other data collection stuff
@@ -680,7 +680,7 @@ Function EnableWindowsFeedback {
 		New-Item -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Force | Out-Null
 	}
 	Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Name "NumberOfSIUFInPeriod" -Force -ErrorAction SilentlyContinue
-    Remove-ItemProperty -Path "HKCU\SOFTWARE\Microsoft\Siuf\Rules" -Name "PeriodInNanoSeconds" -Force -ErrorAction SilentlyContinue
+	Remove-ItemProperty -Path "HKCU\SOFTWARE\Microsoft\Siuf\Rules" -Name "PeriodInNanoSeconds" -Force -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "DoNotShowFeedbackNotifications" -Force -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "DoNotShowFeedbackNotifications" -Force -ErrorAction SilentlyContinue
 	Enable-ScheduledTask -TaskName "Microsoft\Windows\Feedback\Siuf\DmClient" -ErrorAction SilentlyContinue | Out-Null
@@ -710,8 +710,8 @@ Function DisableLanguageListAccess {
 
 Function EnableLanguageListAccess {
     #Turn on Let websites provide locally relevant content by accessing my language list
-	Write-Host "Enabling Language List Access..."
-	Remove-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Force -ErrorAction SilentlyContinue
+    Write-Host "Enabling Language List Access..."
+    Remove-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Force -ErrorAction SilentlyContinue
 }
 
 Function DisableAdvertisingID {
@@ -993,16 +993,16 @@ Function DisableCortana {
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCortana" -Type "DWORD" -Value 0 -Force
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCloudSearch" -Type "DWORD" -Value 0 -Force
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCortanaAboveLock" -Type "DWORD" -Value 0 -Force
-    #Disable search web when searching pc
+	#Disable search web when searching pc
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "ConnectedSearchUseWeb" -Type "DWORD" -Value 0 -Force
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "DisableWebSearch" -Type "DWORD" -Value 1 -Force
-    #Disable search web when searching pc over metered connections
+	#Disable search web when searching pc over metered connections
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "ConnectedSearchUseWebOverMeteredConnections" -Type "DWORD" -Value 0 -Force
-    #Disable search indexing encrypted items / stores
+	#Disable search indexing encrypted items / stores
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowIndexingEncryptedStoresOrItems" -Type "DWORD" -Value 0 -Force
-    #Disable location based info in searches
+	#Disable location based info in searches
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowSearchToUseLocation" -Type "DWORD" -Value 0 -Force
-    #Disable language detection
+	#Disable language detection
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AlwaysUseAutoLangDetection" -Type "DWORD" -Value 0 -Force
 	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Experience\AllowCortana")) {
 		New-Item -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Experience\AllowCortana" -Force | Out-Null
@@ -1077,24 +1077,24 @@ Function DisableCortana {
 	# Disable  Cortana even when my device is locked
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Speech_OneCore\Preferences" -Name "VoiceActivationEnableAboveLockscreen" -Value 0 -Type "DWORD" -Force
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Speech_OneCore\Preferences" -Name "ModelDownloadAllowed" -Value 0 -Type "DWORD" -Force
-    Write-Host "Blocking Cortana UDP/TCP Traffic in Windows Firewall..."
-    # Block Cortana ActionUriServer
-    New-NetFirewallRule -DisplayName "Block Cortana ActionUriServer.exe" -Description "Block Cortana Outbound UDP/TCP Traffic" -Direction Outbound -Action Block -Protocol Any -LocalPort Any -Program "%SystemRoot%\SystemApps\Microsoft.Windows.Cortana_cw5n1h2txyewy\ActionUriServer.exe"
-    # Block Cortana PlacesServer
-    New-NetFirewallRule -DisplayName "Block Cortana PlacesServer.exe" -Description "Block Cortana Outbound UDP/TCP Traffic" -Direction Outbound -Action Block -Protocol Any -LocalPort Any -Program "%SystemRoot%\SystemApps\Microsoft.Windows.Cortana_cw5n1h2txyewy\PlacesServer.exe"
-    # Block Cortana RemindersServer
-    New-NetFirewallRule -DisplayName "Block Cortana RemindersServer.exe" -Description "Block Cortana Outbound UDP/TCP Traffic" -Direction Outbound -Action Block -Protocol Any -LocalPort Any -Program "%SystemRoot%\SystemApps\Microsoft.Windows.Cortana_cw5n1h2txyewy\RemindersServer.exe"
-    # Block Cortana RemindersShareTargetApp
-    New-NetFirewallRule -DisplayName "Block Cortana RemindersShareTargetApp.exe" -Description "Block Cortana Outbound UDP/TCP Traffic" -Direction Outbound -Action Block -Protocol Any -LocalPort Any -Program "%SystemRoot%\SystemApps\Microsoft.Windows.Cortana_cw5n1h2txyewy\RemindersShareTargetApp.exe"
-    # Block Cortana Cortana SearchUI
-    New-NetFirewallRule -DisplayName "Block Cortana SearchUI.exe" -Description "Block Cortana Outbound UDP/TCP Traffic" -Direction Outbound -Action Block -Protocol Any -LocalPort Any -Program "%SystemRoot%\SystemApps\Microsoft.Windows.Cortana_cw5n1h2txyewy\SearchUI.exe"
-    # Block Cortana Cortana Package
-    New-NetFirewallRule -DisplayName "Block Cortana Package" -Description "Block Cortana Outbound UDP/TCP Traffic" -Direction Outbound -Action Block -Protocol Any -LocalPort Any -Package "S-1-15-2-1861897761-1695161497-2927542615-642690995-327840285-2659745135-2630312742"
-    Write-Host "Blocking SearchApp Outbound UDP/TCP Traffic in Windows Firewall..."
-    # Block SearchApp
-    New-NetFirewallRule -DisplayName "Block SearchApp.exe" -Description "Block SearchApp.exe Outbound UDP/TCP Traffic" -Direction Outbound -Action Block -Protocol Any -LocalPort Any -Program "%SystemRoot%\SystemApps\Microsoft.Windows.Search_cw5n1h2txyewy\SearchApp.exe"
-    # Block Windows Search Package
-    New-NetFirewallRule -DisplayName "Block Windows Search Package" -Description "Block Windows Search Package Outbound UDP/TCP Traffic" -Direction Outbound -Action Block -Protocol Any -LocalPort Any -Package "S-1-15-2-536077884-713174666-1066051701-3219990555-339840825-1966734348-1611281757"
+	Write-Host "Blocking Cortana UDP/TCP Traffic in Windows Firewall..."
+	# Block Cortana ActionUriServer
+	New-NetFirewallRule -DisplayName "Block Cortana ActionUriServer.exe" -Description "Block Cortana Outbound UDP/TCP Traffic" -Direction Outbound -Action Block -Protocol Any -LocalPort Any -Program "%SystemRoot%\SystemApps\Microsoft.Windows.Cortana_cw5n1h2txyewy\ActionUriServer.exe"
+	# Block Cortana PlacesServer
+	New-NetFirewallRule -DisplayName "Block Cortana PlacesServer.exe" -Description "Block Cortana Outbound UDP/TCP Traffic" -Direction Outbound -Action Block -Protocol Any -LocalPort Any -Program "%SystemRoot%\SystemApps\Microsoft.Windows.Cortana_cw5n1h2txyewy\PlacesServer.exe"
+	# Block Cortana RemindersServer
+	New-NetFirewallRule -DisplayName "Block Cortana RemindersServer.exe" -Description "Block Cortana Outbound UDP/TCP Traffic" -Direction Outbound -Action Block -Protocol Any -LocalPort Any -Program "%SystemRoot%\SystemApps\Microsoft.Windows.Cortana_cw5n1h2txyewy\RemindersServer.exe"
+	# Block Cortana RemindersShareTargetApp
+	New-NetFirewallRule -DisplayName "Block Cortana RemindersShareTargetApp.exe" -Description "Block Cortana Outbound UDP/TCP Traffic" -Direction Outbound -Action Block -Protocol Any -LocalPort Any -Program "%SystemRoot%\SystemApps\Microsoft.Windows.Cortana_cw5n1h2txyewy\RemindersShareTargetApp.exe"
+	# Block Cortana Cortana SearchUI
+	New-NetFirewallRule -DisplayName "Block Cortana SearchUI.exe" -Description "Block Cortana Outbound UDP/TCP Traffic" -Direction Outbound -Action Block -Protocol Any -LocalPort Any -Program "%SystemRoot%\SystemApps\Microsoft.Windows.Cortana_cw5n1h2txyewy\SearchUI.exe"
+	# Block Cortana Cortana Package
+	New-NetFirewallRule -DisplayName "Block Cortana Package" -Description "Block Cortana Outbound UDP/TCP Traffic" -Direction Outbound -Action Block -Protocol Any -LocalPort Any -Package "S-1-15-2-1861897761-1695161497-2927542615-642690995-327840285-2659745135-2630312742"
+	Write-Host "Blocking SearchApp Outbound UDP/TCP Traffic in Windows Firewall..."
+	# Block SearchApp
+	New-NetFirewallRule -DisplayName "Block SearchApp.exe" -Description "Block SearchApp.exe Outbound UDP/TCP Traffic" -Direction Outbound -Action Block -Protocol Any -LocalPort Any -Program "%SystemRoot%\SystemApps\Microsoft.Windows.Search_cw5n1h2txyewy\SearchApp.exe"
+	# Block Windows Search Package
+	New-NetFirewallRule -DisplayName "Block Windows Search Package" -Description "Block Windows Search Package Outbound UDP/TCP Traffic" -Direction Outbound -Action Block -Protocol Any -LocalPort Any -Package "S-1-15-2-536077884-713174666-1066051701-3219990555-339840825-1966734348-1611281757"
 }
 
 Function EnableCortana {
@@ -1141,24 +1141,24 @@ Function EnableCortana {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Speech_OneCore\Preferences" -Name "VoiceActivationDefaultOn" -Force -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Speech_OneCore\Preferences" -Name "VoiceActivationEnableAboveLockscreen" -Force -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Speech_OneCore\Preferences" -Name "ModelDownloadAllowed" -Force -ErrorAction SilentlyContinue
-    Write-Host "Allowing SearchApp Outbound UDP/TCP Traffic in Windows Firewall..."
-    # Allow Cortana ActionUriServer
-    Remove-NetFirewallRule -DisplayName "Block Cortana ActionUriServer.exe"
-    # Allow Cortana PlacesServer
-    Remove-NetFirewallRule -DisplayName "Block Cortana PlacesServer.exe"
-    # Allow Cortana RemindersServer
-    Remove-NetFirewallRule -DisplayName "Block Cortana RemindersServer.exe"
-    # Allow Cortana RemindersShareTargetApp
-    Remove-NetFirewallRule -DisplayName "Block Cortana RemindersShareTargetApp.exe"
-    # Allow Cortana Cortana SearchUI
-    Remove-NetFirewallRule -DisplayName "Block Cortana SearchUI.exe"
-    # Allow Cortana Cortana Package
-    Remove-NetFirewallRule -DisplayName "Block Cortana Package"
-    Write-Host "Allowing SearchApp Outbound UDP/TCP Traffic in Windows Firewall..."
-    # Allow SearchApp
-    Remove-NetFirewallRule -DisplayName "Block SearchApp.exe"
-    # Allow Windows Search Package
-    Remove-NetFirewallRule -DisplayName "Block Windows Search Package"
+	Write-Host "Allowing SearchApp Outbound UDP/TCP Traffic in Windows Firewall..."
+	# Allow Cortana ActionUriServer
+	Remove-NetFirewallRule -DisplayName "Block Cortana ActionUriServer.exe"
+	# Allow Cortana PlacesServer
+	Remove-NetFirewallRule -DisplayName "Block Cortana PlacesServer.exe"
+	# Allow Cortana RemindersServer
+	Remove-NetFirewallRule -DisplayName "Block Cortana RemindersServer.exe"
+	# Allow Cortana RemindersShareTargetApp
+	Remove-NetFirewallRule -DisplayName "Block Cortana RemindersShareTargetApp.exe"
+	# Allow Cortana Cortana SearchUI
+	Remove-NetFirewallRule -DisplayName "Block Cortana SearchUI.exe"
+	# Allow Cortana Cortana Package
+	Remove-NetFirewallRule -DisplayName "Block Cortana Package"
+	Write-Host "Allowing SearchApp Outbound UDP/TCP Traffic in Windows Firewall..."
+	# Allow SearchApp
+	Remove-NetFirewallRule -DisplayName "Block SearchApp.exe"
+	# Allow Windows Search Package
+	Remove-NetFirewallRule -DisplayName "Block Windows Search Package"
 }
 
 Function DisableSearchBoxSuggestions {
@@ -1758,7 +1758,7 @@ Function DenyAppAccessToLocation {
 		}
 		Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "Status" -Type DWord -Value 0 -Force
 		#Using GPO to deny app access to location (re-activation through GUI is not possible)
-        Write-Host "Denying app access to location using GPO (re-activation through GUI is not possible)..."
+		Write-Host "Denying app access to location using GPO (re-activation through GUI is not possible)..."
 		if (-not (Test-Path -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"))
 		{
 		        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Force | Out-Null
@@ -1822,7 +1822,7 @@ Function DenyAppAccessToMotionData {
 		}
 		Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\activity" -Name "Value" -Type String -Value "Deny" -Force
 		#Using GPO to deny app access to motion data (re-activation through GUI is not possible)
-        Write-Host "Denying app access to motion data using GPO (re-activation through GUI is not possible)..."
+		Write-Host "Denying app access to motion data using GPO (re-activation through GUI is not possible)..."
 		if (-not (Test-Path -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"))
 		{
 		        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Force | Out-Null
@@ -1859,7 +1859,7 @@ Function DenyAppAccessToPhone {
 	if ($decision -eq 0) {
 		Write-Host "Denying app access to phone..."
 		#Using GPO to deny app access to phone (re-activation through GUI is not possible)
-        Write-Host "Denying app access to phone data using GPO (re-activation through GUI is not possible)..."
+		Write-Host "Denying app access to phone data using GPO (re-activation through GUI is not possible)..."
 		if (-not (Test-Path -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"))
 		{
 		        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Force | Out-Null
@@ -1901,7 +1901,7 @@ Function DenyAppAccessToTrustedDevices {
 		}
 		Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\{C1D23ACC-752B-43E5-8448-8D0E519CD6D6}" -Name "Value" -Type String -Value "Deny" -Force
 		#Using GPO to deny app access to trusted devices (re-activation through GUI is not possible)
-        Write-Host "Denying app access to trusted devices using GPO (re-activation through GUI is not possible)..."
+		Write-Host "Denying app access to trusted devices using GPO (re-activation through GUI is not possible)..."
 		if (-not (Test-Path -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"))
 		{
 		        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Force | Out-Null
@@ -1940,7 +1940,7 @@ Function DenyAppAccessToSyncWithDevices {
 		Write-Host "Denying app access to sync with devices..."
 		#Deny app sync with devices (unpaired, beacons, TVs, etc.)
 		#Using GPO to deny app access to sync with devices (re-activation through GUI is not possible)
-        Write-Host "Denying app access to sync with devices using GPO (re-activation through GUI is not possible)..."
+		Write-Host "Denying app access to sync with devices using GPO (re-activation through GUI is not possible)..."
 		if (-not (Test-Path -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"))
 		{
 		        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Force | Out-Null
@@ -1989,7 +1989,7 @@ Function DenyAppAccessToDiagnosticInfo {
 		}
 		Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appDiagnostics" -Name "Value" -Type String -Value "Deny" -Force
 		#Using GPO to deny app access to diagnostics info about your other apps (re-activation through GUI is not possible)
-        Write-Host "Denying app access to diagnostics info about your other apps using GPO (re-activation through GUI is not possible)..."
+		Write-Host "Denying app access to diagnostics info about your other apps using GPO (re-activation through GUI is not possible)..."
 		if (-not (Test-Path -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"))
 		{
 		        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Force | Out-Null
@@ -2052,7 +2052,7 @@ Function DenyAppAccessToContacts {
 		Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\{7D7E8402-7C54-4821-A34E-AEEFD62DED93}" -Name "Value" -Type String -Value "Deny" -Force
 
 		#Using GPO to deny app access to your contacts (re-activation through GUI is not possible)
-        Write-Host "Denying app access to your contacts using GPO (re-activation through GUI is not possible)..."
+		Write-Host "Denying app access to your contacts using GPO (re-activation through GUI is not possible)..."
 		if (-not (Test-Path -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"))
 		{
 		        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Force | Out-Null
@@ -2120,7 +2120,7 @@ Function DenyAppAccessToNotifications {
 		Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\{52079E78-A92B-413F-B213-E8FE35712E72}" -Name "Value" -Type String -Value "Deny" -Force
 
 		#Using GPO to deny app access to Notifications (re-activation through GUI is not possible)
-        Write-Host "Denying app access to Notifications using GPO (re-activation through GUI is not possible)..."
+		Write-Host "Denying app access to Notifications using GPO (re-activation through GUI is not possible)..."
 		if (-not (Test-Path -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"))
 		{
 		        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Force | Out-Null
@@ -2189,7 +2189,7 @@ Function DenyAppAccessToCalendar {
 		Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\{D89823BA-7180-4B81-B50C-7E471E6121A3}" -Name "Value" -Type String -Value "Deny" -Force
 
 		#Using GPO to deny app access to Notifications (re-activation through GUI is not possible)
-        Write-Host "Denying app access to Notifications using GPO (re-activation through GUI is not possible)..."
+		Write-Host "Denying app access to Notifications using GPO (re-activation through GUI is not possible)..."
 		if (-not (Test-Path -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"))
 		{
 		        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Force | Out-Null
@@ -2259,7 +2259,7 @@ Function DenyAppAccessToCallHistory {
 		Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\{8BC668CF-7728-45BD-93F8-CF2B3B41D7AB}" -Name "Value" -Type String -Value "Deny" -Force
 
 		#Using GPO to deny app access to call history (re-activation through GUI is not possible)
-        Write-Host "Denying app access to call history using GPO (re-activation through GUI is not possible)..."
+		Write-Host "Denying app access to call history using GPO (re-activation through GUI is not possible)..."
 		if (-not (Test-Path -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"))
 		{
 		        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Force | Out-Null
@@ -2287,7 +2287,7 @@ Function AllowAppAccessToCallHistory {
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\{8BC668CF-7728-45BD-93F8-CF2B3B41D7AB}" -Name "Value" -Type String -Value "Allow" -Force
 
 	#Using GPO to allow app access to call history (re-activation through GUI is possible)
-    Write-Host "Allowing app access to call history using GPO (re-activation through GUI is possible)..."
+	Write-Host "Allowing app access to call history using GPO (re-activation through GUI is possible)..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Name "LetAppsAccessCallHistory" -Force -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Name "LetAppsAccessCallHistory_UserInControlOfTheseApps" -Force -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Name "LetAppsAccessCallHistory_ForceAllowTheseApps" -Force -ErrorAction SilentlyContinue
@@ -2329,7 +2329,7 @@ Function DenyAppAccessToEmail {
 		Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\{8BC668CF-7728-45BD-93F8-CF2B3B41D7AB}" -Name "Value" -Type String -Value "Deny" -Force
 
 		#Using GPO to deny app access to email (re-activation through GUI is not possible)
-        Write-Host "Denying app access to email using GPO (re-activation through GUI is not possible)..."
+		Write-Host "Denying app access to email using GPO (re-activation through GUI is not possible)..."
 		if (-not (Test-Path -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"))
 		{
 		        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Force | Out-Null
@@ -2357,7 +2357,7 @@ Function AllowAppAccessToEmail {
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\{8BC668CF-7728-45BD-93F8-CF2B3B41D7AB}" -Name "Value" -Type String -Value "Allow" -Force
 
 	#Using GPO to allow app access to email (re-activation through GUI is possible)
-    Write-Host "Allowing app access to email using GPO (re-activation through GUI is possible)..."
+	Write-Host "Allowing app access to email using GPO (re-activation through GUI is possible)..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Name "LetAppsAccessEmail" -Force -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Name "LetAppsAccessEmail_UserInControlOfTheseApps" -Force -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Name "LetAppsAccessEmail_ForceAllowTheseApps" -Force -ErrorAction SilentlyContinue
@@ -2554,12 +2554,12 @@ Function AllowAppAccessToRadios {
 	Write-Host "Enabling app access to radios on this device..."
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\radios" -Name "Value" -Type String -Value "Allow" -Force
 
-    #Allow app access to radios for older Windows (before 1903)
+	#Allow app access to radios for older Windows (before 1903)
 	Write-Host "Allowing app access to radios for older Windows (before 1903)..."
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\{A8804298-2D5F-42E3-9531-9C8C39EB29CE}" -Name "Value" -Type String -Value "Allow" -Force
 
 	#Using GPO to allow app access to radios (re-activation through GUI is possible)
-    Write-Host "Allowing app access to radios using GPO (re-activation through GUI is possible)..."
+	Write-Host "Allowing app access to radios using GPO (re-activation through GUI is possible)..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Name "LetAppsAccessRadios" -Force -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Name "LetAppsAccessRadios_UserInControlOfTheseApps" -Force -ErrorAction SilentlyContinue
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" -Name "LetAppsAccessRadios_ForceAllowTheseApps" -Force -ErrorAction SilentlyContinue
