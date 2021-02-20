@@ -8118,7 +8118,7 @@ Function InstallFaxAndScan {
 Function ImageCleanup {
 	Write-Host "Clean up unused files and Windows updates..."
 	Get-ChildItem -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches | ForEach-Object -Process {
-	    Remove-ItemProperty -Path $_.PsPath -Name StateFlags1337 -Force -ErrorAction Ignore
+	    Remove-ItemProperty -Path $_.PsPath -Name StateFlags65535 -Force -ErrorAction Ignore
 	}
 
 	$VolumeCaches = @(
